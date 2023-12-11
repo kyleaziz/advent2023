@@ -84,20 +84,35 @@ defmodule Engine do
   #   firstLine
   # end
 
-  def checkAdj([], line, nLine) do
-    case(hd(line)+hd(nLine)) do
+  # def tableVert(table = [row|rest], previousRow \\ [], result)
+  # def tableVert([], _previousRow, result), do: result
+  # def tableVert(table = [row|rest], previousRow, result) do
+
+  # end
+
+  def rowVert(row1,row2, row3 \\ [], result \\ [])
+  def rowVert([],_row2, _row3, result), do: result
+  def rowVert([val|rest], [pVal|pRest], [], result) do
+    rowVert(rest,pRest,[],Enum.concat(result,evalVert(val,pVal)))
+  end
+  def rowVert([val|rest], [pVal|pRest], [nVal|nRest], result) do
+    rowVert(rest,pRest,nRest,Enum.concat(result,evalVert(val,pVal,nVal)))
+  end
+  # def evalVert([], val, nVal) do
+  #   case(val+nVal) do
+  #     0 -> 0
+  #     _ -> 1
+  #   end
+  # end
+  def evalVert(val1,val2,val3 \\ 0)
+  def evalVert(pVal, val, 0) do
+    case(val+pVal) do
       0 -> 0
       _ -> 1
     end
   end
-  def checkAdj(pLine, line, []) do
-    case(hd(line)+hd(pLine)) do
-      0 -> 0
-      _ -> 1
-    end
-  end
-  def checkAdj(pLine, line, nLine) do
-    case(hd(pLine)+hd(line)+hd(nLine)) do
+  def evalVert(pVal, val, nVal) do
+    case(pVal+val+nVal) do
       0 -> 0
       _ -> 1
     end
